@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/robin_hood.png" type="Texture" id=1]
+[ext_resource path="res://assets/light_sphere.png" type="Texture" id=2]
+[ext_resource path="res://Healthbar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Bowman.gd" type="Script" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "walking"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 2.67792
+height = 5.77718
+
+[node name="Bowman" type="KinematicBody2D" groups=[
+"player",
+]]
+scale = Vector2( 2, 2 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+light_mask = 0
+texture = ExtResource( 1 )
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+pause_mode = 2
+autoplay = "idle"
+anims/idle = SubResource( 1 )
+anims/walking = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="Sprite"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+shadow_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 2.38958, 5.4164 )
+rotation = 1.5708
+shape = SubResource( 3 )
+
+[node name="Healthbar" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1.84231, -11.7414 )
